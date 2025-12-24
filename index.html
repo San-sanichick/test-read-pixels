@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test-read-pixels</title>
+    <style>
+      body {
+          margin: 0;
+          padding: 0;
+          max-height: fit-content;
+          max-width: fit-content;
+        
+        div {
+          display: flex;
+          flex-flow: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <canvas id="canvas"></canvas>
+      <label for="range">
+          canvas size <span id="canvas-size"></span>
+          <input id="range" type="range" min="10" max="4000" step="1" />
+      </label>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
