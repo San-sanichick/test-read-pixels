@@ -1,4 +1,4 @@
-const SIZE = 10;
+let SIZE = 10;
 const canvas = document.querySelector<HTMLCanvasElement>("#canvas")!;
 const range = document.querySelector<HTMLInputElement>("#range")!;
 const sizeSpan = document.querySelector<HTMLSpanElement>("#canvas-size")!;
@@ -13,12 +13,50 @@ const gl = canvas?.getContext("webgl2")!;
 
 if (!gl) throw new Error("No context");
 
+// let tex = gl.createTexture();
+// gl.bindTexture(gl.TEXTURE_2D, tex);
+//
+// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+//
+// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+// gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+//
+// gl.texImage2D(
+//     gl.TEXTURE_2D,
+//     0,
+//     gl.RGBA,
+//     SIZE,
+//     SIZE,
+//     0,
+//     gl.RGBA,
+//     gl.UNSIGNED_BYTE,
+//     null
+// );
+//
+// const fb = gl.createFramebuffer();
+// gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+// gl.framebufferTexture2D(
+//     gl.FRAMEBUFFER,
+//     gl.COLOR_ATTACHMENT0,
+//     gl.TEXTURE_2D,
+//     tex,
+//     0,
+// );
+// gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+// gl.bindTexture(gl.TEXTURE_2D, null);
+//
+
+
 function draw()
 {
     gl.clearColor(1, 0, 1, 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
-
-    // requestAnimationFrame(draw);
+    //
+    // gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+    // gl.clearColor(1, 0, 1, 1);
+    // gl.clear(gl.COLOR_BUFFER_BIT);
+    // gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 }
 
 draw();
@@ -30,11 +68,12 @@ canvas.addEventListener("mousemove", e =>
     const x = e.clientX;
     const y = e.clientY;
 
-    // gl.bindFramebuffer(gl.READ_FRAMEBUFFER, null);
     draw();
-    gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, buf);
-    // console.log(x, SIZE - y);
+
+    gl.readPixels(x, SIZE - y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, buf);
+
     console.log(buf[0], buf[1], buf[2], buf[3]);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 });
 
 
@@ -43,6 +82,7 @@ range.value = `${SIZE}`;
 range.addEventListener("change", () =>
 {
     const val = parseInt(range.value);
+    SIZE = val;
     sizeSpan.textContent = `${val}`;
 
     canvas.width = val;
